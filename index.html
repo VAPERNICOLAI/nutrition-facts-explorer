@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="NutriFacts is a simple nutrition facts explorer powered by a free public nutrition API.">
+
+    <title>NutriFacts | Nutrition Facts Explorer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🥗 NutriFacts
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#search">Food Search</a>
+            <a href="#about">About</a>
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
+    <header id="home" class="hero">
+
+        <div class="hero-content">
+
+            <p class="hero-label">
+                SIMPLE • FAST • INFORMATIVE
+            </p>
+
+            <h1>
+                Know What's
+                <span>Inside Your Food.</span>
+            </h1>
+
+            <p class="hero-description">
+                Search for food and discover calories,
+                protein, carbohydrates, fats, vitamins,
+                minerals and other nutritional information.
+            </p>
+
+            <a href="#search" class="hero-button">
+                Explore Nutrition
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main>
+
+
+        <!-- SEARCH SECTION -->
+
+        <section id="search" class="search-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">
+                    FOOD EXPLORER
+                </p>
+
+                <h2>
+                    Search Nutrition Facts
+                </h2>
+
+                <p>
+                    Enter a food below to view its
+                    nutritional information.
+                </p>
+
+            </div>
+                
+
+            <form id="foodForm" class="search-form">
+
+                <label for="foodInput">
+                    Food name
+                </label>
+
+                <div class="search-controls">
+
+                    <input
+                        type="text"
+                        id="foodInput"
+                        placeholder="Example: broccoli raw"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button type="submit">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- QUICK SEARCH -->
+
+            <div class="quick-search">
+
+                <p>Quick Search:</p>
+
+                <button
+                    type="button"
+                    class="quick-btn"
+                    data-food="broccoli raw">
+                    🥦 Broccoli
+                </button>
+
+                <button
+                    type="button"
+                    class="quick-btn"
+                    data-food="banana raw">
+                    🍌 Banana
+                </button>
+
+                <button
+                    type="button"
+                    class="quick-btn"
+                    data-food="avocado raw">
+                    🥑 Avocado
+                </button>
+
+            </div>
+
+
+            <!-- STATUS / ERROR MESSAGE -->
+
+            <div
+                id="message"
+                class="message"
+                aria-live="polite">
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             NUTRITION RESULTS
+        ========================== -->
+
+        <section
+            id="result"
+            class="results-section hidden">
+
+            <div class="result-heading">
+
+                <p class="section-label">
+                    SEARCH RESULT
+                </p>
+
+                <h2 id="resultTitle">
+                    Nutrition Information
+                </h2>
+
+            </div>
+
+
+            <div class="result-grid">
+
+
+                <!-- NUTRITION FACTS LABEL -->
+
+                <article class="nutrition-card">
+
+                    <h2 class="nutrition-title">
+                        Nutrition Facts
+                    </h2>
+
+                    <div class="thick-line"></div>
+
+
+                    <div class="food-information">
+
+                        <h3 id="foodName">
+                            Food Name
+                        </h3>
+
+                        <p id="foodGroup">
+                            Food Group
+                        </p>
+
+                    </div>
+
+
+                    <div class="thin-line"></div>
+
+
+                    <p class="serving-title">
+                        Serving Information
+                    </p>
+
+                    <p class="serving">
+                        Amount per 100 g
+                    </p>
+
+
+                    <div class="thick-line"></div>
+
+
+                    <!-- CALORIES -->
+
+                    <p class="amount-label">
+                        Amount per serving
+                    </p>
+
+                    <div class="calories">
+
+                        <span>
+                            Calories
+                        </span>
+
+                        <strong id="calories">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="medium-line"></div>
+
+
+                    <!-- API NUTRIENTS INSERTED HERE -->
+
+                    <div id="nutrientList">
+
+                    </div>
+
+
+                    <div class="thick-line"></div>
+
+
+                    <p class="nutrition-note">
+                        Nutritional values shown are based
+                        on the information returned by the
+                        public nutrition API.
+                    </p>
+
+                </article>
+
+
+
+                <!-- =========================
+                     SUMMARY
+                ========================== -->
+
+                <aside class="nutrition-summary">
+
+                    <div class="summary-header">
+
+                        <p class="section-label">
+                            AT A GLANCE
+                        </p>
+
+                        <h3>
+                            Nutrition Summary
+                        </h3>
+
+                    </div>
+
+
+                    <div class="summary-grid">
+
+
+                        <div class="summary-card">
+
+                            <span class="summary-icon">
+                                🔥
+                            </span>
+
+                            <p>Calories</p>
+
+                            <strong id="summaryCalories">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-card">
+
+                            <span class="summary-icon">
+                                💪
+                            </span>
+
+                            <p>Protein</p>
+
+                            <strong id="summaryProtein">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-card">
+
+                            <span class="summary-icon">
+                                🌾
+                            </span>
+
+                            <p>Carbohydrates</p>
+
+                            <strong id="summaryCarbs">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-card">
+
+                            <span class="summary-icon">
+                                🥑
+                            </span>
+
+                            <p>Total Fat</p>
+
+                            <strong id="summaryFat">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ADDITIONAL INFORMATION -->
+
+                    <div class="additional-info">
+
+                        <h3>
+                            Additional Nutrients
+                        </h3>
+
+                        <p>
+                            The API may also provide
+                            information about:
+                        </p>
+
+                        <div class="nutrient-tags">
+
+                            <span>Fiber</span>
+                            <span>Sugars</span>
+                            <span>Sodium</span>
+                            <span>Potassium</span>
+                            <span>Calcium</span>
+                            <span>Iron</span>
+                            <span>Vitamin C</span>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FEATURES
+        ========================== -->
+
+        <section class="features-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">
+                    FEATURES
+                </p>
+
+                <h2>
+                    Explore Your Food
+                </h2>
+
+                <p>
+                    NutriFacts makes nutritional
+                    information easier to understand.
+                </p>
+
+            </div>
+
+
+            <div class="features-grid">
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        🔎
+                    </div>
+
+                    <h3>
+                        Food Search
+                    </h3>
+
+                    <p>
+                        Enter a food and retrieve
+                        nutritional information from
+                        a public API.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <h3>
+                        Nutrition Facts
+                    </h3>
+
+                    <p>
+                        View calories, macronutrients,
+                        vitamins and minerals in an
+                        easy-to-read format.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        Live API Data
+                    </h3>
+
+                    <p>
+                        Nutrition information is retrieved
+                        dynamically using GET requests.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section id="about" class="about-section">
+
+            <div class="about-content">
+
+                <p class="section-label">
+                    ABOUT THE PROJECT
+                </p>
+
+                <h2>
+                    What is NutriFacts?
+                </h2>
+
+                <p>
+                    NutriFacts is a web application
+                    designed to make nutritional
+                    information simple and accessible.
+                </p>
+
+                <p>
+                    The application communicates with
+                    a free public Nutrition Facts API
+                    using JavaScript Fetch and HTTP
+                    GET requests.
+                </p>
+
+            </div>
+
+
+            <div class="api-card">
+
+                <h3>
+                    API Integration
+                </h3>
+
+                <div class="api-status">
+
+                    <span class="status-dot"></span>
+
+                    Public Nutrition API
+
+                </div>
+
+                <p>
+                    Data Provider:
+                    <strong>
+                        All The Nutrients
+                    </strong>
+                </p>
+
+                <p>
+                    Request Method:
+                    <strong>GET</strong>
+                </p>
+
+                <p>
+                    Response Format:
+                    <strong>JSON</strong>
+                </p>
+
+                <p>
+                    Authentication:
+                    <strong>No API Key Required</strong>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DISCLAIMER -->
+
+        <section class="disclaimer">
+
+            <h3>
+                ⚠️ Nutrition Information Notice
+            </h3>
+
+            <p>
+                Nutrition information displayed by
+                NutriFacts is provided for educational
+                and informational purposes. Values may
+                vary depending on food variety,
+                preparation and serving size.
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div>
+
+                <h3>
+                    🥗 NutriFacts
+                </h3>
+
+                <p>
+                    Nutrition Facts Explorer
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    Powered by
+                    <strong>
+                        All The Nutrients API
+                    </strong>
+                </p>
+
+                <p>
+                    Built using HTML, CSS
+                    and JavaScript.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 NutriFacts.
+                Educational Web Application.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
